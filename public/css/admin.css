@@ -1,0 +1,71 @@
+/* Panel admin — pakai variabel dari site.css supaya konsisten */
+
+.admin-body main{margin-top:22px}
+.admin-wrap .admin-nav{padding:10px 14px}
+.admin-links a{font-size:.86rem}
+.admin-foot{margin-top:22px;padding:16px 22px;font-size:.8rem;color:var(--muted);
+  display:flex;justify-content:center;text-align:center}
+.admin-nav form{margin:0}
+
+.alert{border-radius:16px;padding:13px 18px;font-size:.88rem;margin-bottom:14px;border:1px solid}
+.alert.ok{background:#e7f7ee;border-color:#b7e6cd;color:#1c7a49}
+.alert.err{background:#fff6f6;border-color:#f0c3c3;color:#a12727}
+.alert div+div{margin-top:4px}
+
+.head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}
+.head h3{font-size:1.05rem}
+.empty{color:var(--muted);font-size:.9rem;padding:18px 0}
+
+/* daftar proyek */
+.alist{display:flex;flex-direction:column;gap:12px}
+.arow{display:flex;gap:16px;align-items:center;padding:12px;border-radius:18px;
+  background:rgba(255,255,255,.6);border:1px solid var(--glass-b);flex-wrap:wrap}
+.athumb{width:104px;height:66px;object-fit:cover;border-radius:12px;background:#dbe5f5;flex:none}
+.ainfo{flex:1;min-width:180px}
+.ainfo b{display:block;font-size:.95rem}
+.ainfo span{font-size:.78rem;color:var(--muted)}
+.aact{display:flex;gap:8px;align-items:center}
+.aact .btn{padding:9px 16px;font-size:.8rem}
+.aact form{margin:0}
+.btn.danger{background:#fff;color:#c02626;border-color:#efc1c1}
+.btn.danger:hover{background:#c02626;color:#fff;border-color:#c02626}
+
+/* grid foto */
+.agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
+.acell{border-radius:18px;overflow:hidden;background:rgba(255,255,255,.65);
+  border:1px solid var(--glass-b);display:flex;flex-direction:column}
+.acell img{width:100%;aspect-ratio:4/3;object-fit:cover;background:#dbe5f5}
+.acell figcaption{padding:10px 12px;flex:1}
+.acell figcaption b{display:block;font-size:.85rem}
+.acell figcaption span{font-size:.72rem;color:var(--muted)}
+.acell .aact{padding:0 12px 12px;flex-wrap:wrap}
+
+/* form */
+.aform{display:flex;flex-direction:column;gap:16px;max-width:640px}
+.aform label{display:flex;flex-direction:column;gap:6px;font-size:.86rem;font-weight:600}
+.aform label small{font-weight:400;color:var(--muted);font-size:.74rem}
+.aform input,.aform textarea,.aform select{
+  font-family:inherit;font-size:.9rem;padding:11px 14px;border-radius:13px;
+  border:1px solid var(--line);background:rgba(255,255,255,.8);color:var(--ink);
+  font-weight:400;transition:.2s;width:100%}
+.aform input:focus,.aform textarea:focus{outline:none;border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(30,58,138,.16)}
+.aform textarea{resize:vertical}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:6px}
+.preview{display:flex;flex-direction:column;gap:8px;font-size:.8rem;color:var(--muted)}
+.preview img{width:220px;border-radius:14px;border:1px solid var(--glass-b)}
+
+/* login */
+.admin-body.login-body{display:grid;place-items:center;min-height:100vh}
+.login-card{width:min(400px,100% - 32px);padding:34px;margin-top:0}
+.login-card h2{margin-top:6px}
+.login-card .aform{max-width:none;margin-top:20px}
+.login-card .btn{justify-content:center}
+.muted-txt{color:var(--muted);font-size:.86rem;margin-top:6px}
+
+@media (max-width:720px){
+  .two{grid-template-columns:1fr}
+  .arow{flex-direction:column;align-items:flex-start}
+  .athumb{width:100%;height:150px}
+}

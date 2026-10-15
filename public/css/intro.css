@@ -1,0 +1,152 @@
+/* ============================================================
+   Intro splash saat web dibuka.
+   Setara efek demo Cicada (Zajno) tapi versi GRATIS:
+   - DrawSVG  -> stroke-dashoffset (murni CSS)
+   - MotionPath-> SVG animateMotion + mpath (native SMIL)
+   - SplitText-> fade biasa
+   Tidak ada plugin berbayar & tidak ada CDN eksternal.
+   ============================================================ */
+
+body.intro-lock { overflow: hidden; }
+
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(1200px 760px at 50% 42%, #173862 0%, #0c1c36 55%, #071225 100%);
+  transition: opacity .6s ease, visibility .6s ease;
+  /* jaring pengaman: kalau JS gagal, intro tetap hilang sendiri */
+  animation: introSafety 0.6s ease 3.4s forwards;
+}
+.intro.intro--out { opacity: 0; visibility: hidden; pointer-events: none; animation: none; }
+
+@keyframes introSafety { to { opacity: 0; visibility: hidden; pointer-events: none; } }
+
+/* kartu glass — efek kaca tetap dipertahankan */
+.intro-card {
+  width: min(920px, 100%);
+  padding: clamp(18px, 4vw, 42px) clamp(12px, 5vw, 48px);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .16);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 30px 80px rgba(4, 12, 28, .55);
+  text-align: center;
+}
+
+.intro-svg { display: block; width: 100%; height: auto; }
+
+/* logo kode di tengah */
+.intro-logo {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: introLogoIn .6s cubic-bezier(.2, .8, .3, 1) .05s forwards;
+}
+.code-glyph { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+
+@keyframes introLogoIn {
+  from { opacity: 0; transform: scale(.7); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* cabang tergambar sendiri */
+.br {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: introDraw .8s cubic-bezier(.4, 0, .2, 1) forwards;
+}
+.b1 { animation-delay: .30s; }
+.b2 { animation-delay: .38s; }
+.b3 { animation-delay: .46s; }
+.b4 { animation-delay: .54s; }
+.b5 { animation-delay: .62s; }
+.b6 { animation-delay: .70s; }
+
+@keyframes introDraw { to { stroke-dashoffset: 0; } }
+
+/* titik ujung muncul setelah cabangnya selesai */
+.dot {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: introPop .45s cubic-bezier(.2, .9, .3, 1.45) forwards;
+}
+.d1 { animation-delay: 1.10s; }
+.d2 { animation-delay: 1.18s; }
+.d3 { animation-delay: 1.26s; }
+.d4 { animation-delay: 1.34s; }
+.d5 { animation-delay: 1.42s; }
+.d6 { animation-delay: 1.50s; }
+
+@keyframes introPop {
+  from { opacity: 0; transform: scale(.2); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* label teknologi */
+.labels text {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  fill: #cdddf7;
+  letter-spacing: .04em;
+  opacity: 0;
+  animation: introFade .5s ease forwards;
+}
+.l1 { animation-delay: 1.18s; }
+.l2 { animation-delay: 1.26s; }
+.l3 { animation-delay: 1.34s; }
+.l4 { animation-delay: 1.42s; }
+.l5 { animation-delay: 1.50s; }
+.l6 { animation-delay: 1.58s; }
+
+@keyframes introFade { to { opacity: 1; } }
+
+/* kapsi + tombol lewati */
+.intro-caption {
+  margin-top: 4px;
+  opacity: 0;
+  animation: introFade .6s ease 1.7s forwards;
+}
+.intro-caption b {
+  display: block;
+  color: #fff;
+  font-size: clamp(1.05rem, 2.4vw, 1.5rem);
+  letter-spacing: -.01em;
+}
+.intro-caption span {
+  color: #9db6dd;
+  font-size: .82rem;
+}
+
+.intro-skip {
+  margin-top: 16px;
+  padding: 9px 22px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: .82rem;
+  font-weight: 600;
+  color: #dce7f8;
+  background: rgba(255, 255, 255, .10);
+  border: 1px solid rgba(255, 255, 255, .28);
+  cursor: pointer;
+  opacity: 0;
+  animation: introFade .5s ease 2s forwards;
+  transition: background .2s, transform .2s;
+}
+.intro-skip:hover { background: rgba(255, 255, 255, .22); transform: translateY(-2px); }
+.intro-skip:focus-visible { outline: 2px solid #8db4ee; outline-offset: 3px; }
+
+/* kurangi gerak: langsung sembunyikan */
+@media (prefers-reduced-motion: reduce) {
+  .intro { display: none; }
+}
+
+@media (max-width: 640px) {
+  .labels text { font-size: 17px; }
+  .intro-card { border-radius: 22px; }
+}

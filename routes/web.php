@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PhotoController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\PageController;
@@ -34,5 +35,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('foto/{id}/edit', [PhotoController::class, 'edit'])->name('photos.edit');
         Route::put('foto/{id}', [PhotoController::class, 'update'])->name('photos.update');
         Route::delete('foto/{id}', [PhotoController::class, 'destroy'])->name('photos.destroy');
+
+        // Pesanan & Nota
+        Route::get('pesanan', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('pesanan/baru', [OrderController::class, 'create'])->name('orders.create');
+        Route::post('pesanan', [OrderController::class, 'store'])->name('orders.store');
+        Route::get('pesanan/{id}/edit', [OrderController::class, 'edit'])->name('orders.edit');
+        Route::put('pesanan/{id}', [OrderController::class, 'update'])->name('orders.update');
+        Route::delete('pesanan/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
+        Route::post('pesanan/convert/{messageId}', [OrderController::class, 'convertFromMessage'])->name('orders.convert');
+        Route::get('pesanan/{id}/nota', [OrderController::class, 'invoice'])->name('orders.invoice');
     });
 });

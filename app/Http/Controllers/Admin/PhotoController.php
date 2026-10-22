@@ -11,9 +11,7 @@ use Illuminate\View\View;
 
 class PhotoController extends Controller
 {
-    public function __construct(private Supabase $supabase)
-    {
-    }
+    public function __construct(private Supabase $supabase) {}
 
     public function index(): View
     {
@@ -108,19 +106,19 @@ class PhotoController extends Controller
     private function validated(Request $request): array
     {
         $request->validate([
-            'title'    => ['nullable', 'string', 'max:150'],
+            'title' => ['nullable', 'string', 'max:150'],
             'category' => ['nullable', 'string', 'max:80'],
-            'image'    => ['nullable', 'image', 'max:6144'],
-            'sort'     => ['nullable', 'integer', 'min:0', 'max:9999'],
+            'image' => ['nullable', 'image', 'max:6144'],
+            'sort' => ['nullable', 'integer', 'min:0', 'max:9999'],
         ], [
             'image.image' => 'File harus berupa gambar.',
-            'image.max'   => 'Gambar maksimal 6 MB.',
+            'image.max' => 'Gambar maksimal 6 MB.',
         ]);
 
         return [
-            'title'      => $request->input('title'),
-            'category'   => $request->input('category'),
-            'image_url'  => $request->input('image_url', ''),
+            'title' => $request->input('title'),
+            'category' => $request->input('category'),
+            'image_url' => $request->input('image_url', ''),
         ];
     }
 

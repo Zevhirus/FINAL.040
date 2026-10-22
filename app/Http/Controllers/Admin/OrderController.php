@@ -11,9 +11,7 @@ use Illuminate\View\View;
 
 class OrderController extends Controller
 {
-    public function __construct(private Supabase $supabase)
-    {
-    }
+    public function __construct(private Supabase $supabase) {}
 
     public function index(Request $request): View
     {
@@ -31,6 +29,7 @@ class OrderController extends Controller
     public function create(): View
     {
         $next = $this->nextInvoiceNo();
+
         return view('admin.orders.form', ['order' => null, 'next' => $next]);
     }
 
@@ -39,40 +38,47 @@ class OrderController extends Controller
         $data = $this->validated($request);
         $data['invoice_no'] = $request->input('invoice_no') ?: $this->nextInvoiceNo();
         $data['budget'] = $this->toDecimal($request->input('budget'));
-        $data['total']  = $this->toDecimal($request->input('total'));
-        $data['dp']     = $this->toDecimal($request->input('dp'));
+        $data['total'] = $this->toDecimal($request->input('total'));
+        $data['dp'] = $this->toDecimal($request->input('dp'));
         $data['status'] = $request->input('status') ?: 'baru';
         $data['order_date'] = $request->input('order_date') ?: date('Y-m-d');
-        $data['due_date']   = $request->input('due_date') ?: null;
+        $data['due_date'] = $request->input('due_date') ?: null;
 
         if (! $this->supabase->insert('orders', $data)) {
             return back()->withErrors(['invoice_no' => 'Gagal menyimpan pesanan.'])->withInput();
         }
         $this->flush();
+
         return redirect()->route('admin.orders.index')->with('status', 'Pesanan ditambahkan.');
     }
 
     public function edit(int $id): View|RedirectResponse
     {
         $order = $this->find($id);
-        if (! $order) return redirect()->route('admin.orders.index')->with('status', 'Pesanan tidak ditemukan.');
+        if (! $order) {
+            return redirect()->route('admin.orders.index')->with('status', 'Pesanan tidak ditemukan.');
+        }
+
         return view('admin.orders.form', ['order' => $order, 'next' => $order['invoice_no']]);
     }
 
     public function update(Request $request, int $id): RedirectResponse
     {
-        if (! $this->find($id)) return redirect()->route('admin.orders.index')->with('status', 'Pesanan tidak ditemukan.');
+        if (! $this->find($id)) {
+            return redirect()->route('admin.orders.index')->with('status', 'Pesanan tidak ditemukan.');
+        }
         $data = $this->validated($request);
         $data['budget'] = $this->toDecimal($request->input('budget'));
-        $data['total']  = $this->toDecimal($request->input('total'));
-        $data['dp']     = $this->toDecimal($request->input('dp'));
+        $data['total'] = $this->toDecimal($request->input('total'));
+        $data['dp'] = $this->toDecimal($request->input('dp'));
         $data['status'] = $request->input('status') ?: 'baru';
         $data['order_date'] = $request->input('order_date') ?: date('Y-m-d');
-        $data['due_date']   = $request->input('due_date') ?: null;
+        $data['due_date'] = $request->input('due_date') ?: null;
         if (! $this->supabase->update('orders', $id, $data)) {
             return back()->withErrors(['invoice_no' => 'Gagal memperbarui pesanan.'])->withInput();
         }
         $this->flush();
+
         return redirect()->route('admin.orders.index')->with('status', 'Pesanan diperbarui.');
     }
 
@@ -80,13 +86,16 @@ class OrderController extends Controller
     {
         $this->supabase->delete('orders', $id);
         $this->flush();
+
         return redirect()->route('admin.orders.index')->with('status', 'Pesanan dihapus.');
     }
 
     public function convertFromMessage(int $messageId): RedirectResponse
     {
         $msg = $this->findMessage($messageId);
-        if (! $msg) return back()->with('status', 'Pesan tidak ditemukan.');
+        if (! $msg) {
+            return back()->with('status', 'Pesan tidak ditemukan.');
+        }
         $brief = ($msg['subject'] ? 'Subjek: '.$msg['subject']."\n\n" : '').($msg['message'] ?? '');
         $data = [
             'invoice_no' => $this->nextInvoiceNo(),
@@ -99,8 +108,10 @@ class OrderController extends Controller
         ];
         if ($this->supabase->insert('orders', $data)) {
             $this->flush();
+
             return redirect()->route('admin.orders.index')->with('status', 'Pesan berhasil dikonversi jadi pesanan.');
         }
+
         return back()->withErrors(['convert' => 'Gagal mengonversi pesan.']);
     }
 
@@ -108,19 +119,24 @@ class OrderController extends Controller
     {
         $order = $this->find($id);
         abort_if(! $order, 404);
+
         return view('admin.orders.invoice', compact('order'));
     }
 
     private function find(int $id): ?array
     {
         $rows = $this->supabase->select('orders', ['select' => '*', 'id' => 'eq.'.$id, 'limit' => 1]);
+
         return $rows[0] ?? null;
     }
+
     private function findMessage(int $id): ?array
     {
         $rows = $this->supabase->select('messages', ['select' => '*', 'id' => 'eq.'.$id, 'limit' => 1]);
+
         return $rows[0] ?? null;
     }
+
     private function validated(Request $request): array
     {
         $request->validate([
@@ -130,17 +146,18 @@ class OrderController extends Controller
             'title' => ['required', 'string', 'max:150'],
             'brief' => ['nullable', 'string', 'max:2000'],
             'budget' => ['nullable', 'numeric', 'min:0'],
-            'total'  => ['nullable', 'numeric', 'min:0'],
-            'dp'     => ['nullable', 'numeric', 'min:0'],
+            'total' => ['nullable', 'numeric', 'min:0'],
+            'dp' => ['nullable', 'numeric', 'min:0'],
             'status' => ['nullable', 'in:baru,diproses,dikerjakan,selesai,batal'],
             'order_date' => ['nullable', 'date'],
-            'due_date'   => ['nullable', 'date'],
-            'notes'      => ['nullable', 'string', 'max:2000'],
+            'due_date' => ['nullable', 'date'],
+            'notes' => ['nullable', 'string', 'max:2000'],
         ], [
             'client_name.required' => 'Nama klien wajib diisi.',
             'title.required' => 'Nama proyek wajib diisi.',
             'status.in' => 'Status tidak valid.',
         ]);
+
         return [
             'client_name' => $request->input('client_name'),
             'client_contact' => $request->input('client_contact'),
@@ -150,12 +167,17 @@ class OrderController extends Controller
             'notes' => $request->input('notes'),
         ];
     }
+
     private function toDecimal(?string $v): float
     {
-        if ($v === null || $v === '') return 0;
+        if ($v === null || $v === '') {
+            return 0;
+        }
         $v = str_replace(['.', ','], ['', '.'], $v);
+
         return (float) $v;
     }
+
     private function nextInvoiceNo(): string
     {
         $y = date('Y');
@@ -163,10 +185,12 @@ class OrderController extends Controller
         $last = $rows[0]['invoice_no'] ?? null;
         $seq = 1;
         if ($last && preg_match('/(\d+)$/', $last, $m)) {
-            $seq = ((int)$m[1]) + 1;
+            $seq = ((int) $m[1]) + 1;
         }
+
         return sprintf('NT-%d-%04d', $y, $seq);
     }
+
     private function flush(): void
     {
         Cache::forget('supabase:orders:'.md5(json_encode(['order' => 'created_at.desc'])));

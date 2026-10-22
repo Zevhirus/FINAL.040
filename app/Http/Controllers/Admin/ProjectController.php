@@ -11,9 +11,7 @@ use Illuminate\View\View;
 
 class ProjectController extends Controller
 {
-    public function __construct(private Supabase $supabase)
-    {
-    }
+    public function __construct(private Supabase $supabase) {}
 
     public function index(): View
     {
@@ -100,25 +98,25 @@ class ProjectController extends Controller
     private function validated(Request $request): array
     {
         $request->validate([
-            'title'       => ['required', 'string', 'max:150'],
-            'category'    => ['nullable', 'string', 'max:80'],
+            'title' => ['required', 'string', 'max:150'],
+            'category' => ['nullable', 'string', 'max:80'],
             'description' => ['nullable', 'string', 'max:500'],
-            'link'        => ['nullable', 'url', 'max:300'],
-            'image'       => ['nullable', 'image', 'max:4096'],
-            'sort'        => ['nullable', 'integer', 'min:0', 'max:9999'],
-            'tags'        => ['nullable', 'string', 'max:300'],
+            'link' => ['nullable', 'url', 'max:300'],
+            'image' => ['nullable', 'image', 'max:4096'],
+            'sort' => ['nullable', 'integer', 'min:0', 'max:9999'],
+            'tags' => ['nullable', 'string', 'max:300'],
         ], [
             'title.required' => 'Nama proyek wajib diisi.',
-            'link.url'       => 'Link harus berupa URL lengkap (https://...).',
-            'image.image'    => 'File harus berupa gambar.',
-            'image.max'      => 'Gambar maksimal 4 MB.',
+            'link.url' => 'Link harus berupa URL lengkap (https://...).',
+            'image.image' => 'File harus berupa gambar.',
+            'image.max' => 'Gambar maksimal 4 MB.',
         ]);
 
         return [
-            'title'       => $request->input('title'),
-            'category'    => $request->input('category'),
+            'title' => $request->input('title'),
+            'category' => $request->input('category'),
             'description' => $request->input('description'),
-            'link'        => $request->input('link') ?: null,
+            'link' => $request->input('link') ?: null,
         ];
     }
 

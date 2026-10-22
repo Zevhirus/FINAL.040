@@ -10,9 +10,7 @@ use Illuminate\Support\Str;
 
 class PageController extends Controller
 {
-    public function __construct(private Supabase $supabase)
-    {
-    }
+    public function __construct(private Supabase $supabase) {}
 
     public function home()
     {
@@ -90,16 +88,16 @@ class PageController extends Controller
         }
 
         $data = $request->validate([
-            'name'    => ['required', 'string', 'max:100'],
-            'email'   => ['required', 'email', 'max:150'],
+            'name' => ['required', 'string', 'max:100'],
+            'email' => ['required', 'email', 'max:150'],
             'subject' => ['nullable', 'string', 'max:150'],
             'message' => ['required', 'string', 'min:10', 'max:3000'],
         ], [
-            'name.required'    => 'Nama wajib diisi.',
-            'email.required'   => 'Email wajib diisi.',
-            'email.email'      => 'Format email tidak valid.',
+            'name.required' => 'Nama wajib diisi.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
             'message.required' => 'Pesan wajib diisi.',
-            'message.min'      => 'Pesan minimal 10 karakter.',
+            'message.min' => 'Pesan minimal 10 karakter.',
         ]);
 
         RateLimiter::hit($throttleKey, 600);

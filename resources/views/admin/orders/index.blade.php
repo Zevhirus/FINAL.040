@@ -3,6 +3,7 @@
 @section('title', 'Pesanan Masuk')
 
 @section('content')
+<?php use Illuminate\Support\Str; ?>
 <section class="page-title glass">
     <span class="eyebrow">Bisnis</span>
     <h2>Pesanan Masuk</h2>

@@ -21,6 +21,7 @@
         <nav class="links admin-links">
             <a href="{{ route('admin.projects.index') }}" class="{{ request()->routeIs('admin.projects.*') ? 'on' : '' }}">Proyek</a>
             <a href="{{ route('admin.photos.index') }}" class="{{ request()->routeIs('admin.photos.*') ? 'on' : '' }}">Foto</a>
+            <a href="{{ route('admin.orders.index') }}" class="{{ request()->routeIs('admin.orders.*') ? 'on' : '' }}">Pesanan</a>
             <a href="{{ route('home') }}" target="_blank">Lihat Website ↗</a>
         </nav>
         <form method="POST" action="{{ route('admin.logout') }}">

@@ -9,21 +9,21 @@
 */
 
 return [
-    'name'     => 'Aan Setiawan',
+    'name' => 'Aan Setiawan',
     'initials' => 'AS',
-    'role'     => 'Web Developer & Fotografer',
-    'tagline'  => 'Saya membangun aplikasi web yang rapi, cepat, dan bermakna, serta mengabadikan momen lewat lensa kamera.',
-    'bio'      => 'Saya Aan Setiawan, web developer dan fotografer. Saya senang mengubah masalah yang rumit menjadi pengalaman digital yang sederhana, serta menangkap cerita lewat foto yang jujur dan hangat.',
+    'role' => 'Web Developer & Fotografer',
+    'tagline' => 'Saya membangun aplikasi web yang rapi, cepat, dan bermakna, serta mengabadikan momen lewat lensa kamera.',
+    'bio' => 'Saya Aan Setiawan, web developer dan fotografer. Saya senang mengubah masalah yang rumit menjadi pengalaman digital yang sederhana, serta menangkap cerita lewat foto yang jujur dan hangat.',
     'photo_url' => env('PROFILE_PHOTO_URL'), // URL foto profil (mis. dari Supabase Storage)
 
-    'email'    => env('CONTACT_EMAIL', 'hello@aansetiawan.com'),
-    'phone'    => env('CONTACT_PHONE', '+62 800 0000 0000'),
+    'email' => env('CONTACT_EMAIL', 'hello@aansetiawan.com'),
+    'phone' => env('CONTACT_PHONE', '+62 800 0000 0000'),
     'location' => 'Indonesia',
 
     'socials' => [
         'Instagram' => 'https://www.instagram.com/jelly_fish.env/',
-        'GitHub'    => 'https://github.com/Zevhirus',
-        'LinkedIn'  => 'https://linkedin.com/',
+        'GitHub' => 'https://github.com/Zevhirus',
+        'LinkedIn' => 'https://linkedin.com/',
     ],
 
     'stats' => [

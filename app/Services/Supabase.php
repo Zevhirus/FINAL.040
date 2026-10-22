@@ -21,7 +21,7 @@ class Supabase
     /**
      * Ambil baris dari tabel. Mengembembalikan null jika gagal / belum dikonfigurasi.
      *
-     * @param  array<string,mixed> $query  contoh: ['order' => 'sort.asc', 'limit' => 3]
+     * @param  array<string,mixed>  $query  contoh: ['order' => 'sort.asc', 'limit' => 3]
      */
     public function select(string $table, array $query = []): ?array
     {
